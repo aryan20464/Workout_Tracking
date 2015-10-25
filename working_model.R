@@ -21,12 +21,14 @@ data_partition <- createDataPartition(train_cleaned$classe, p=0.70, list=F)
 model_train <- train_cleaned[data_partition, ]
 testData <- train_cleaned[-data_partition, ]
 controlRf <- trainControl(method="cv", 4)
-gen_model <- train(classe ~ ., data=model_train, method="rf", trControl=controlRf, ntree=100)
+gen_model <- train(classe ~ ., data=model_train, method="rf", trControl=controlRf, ntree=5)
 gen_model
 gen_prediction <- predict(gen_model, testData)
 confusionMatrix(testData$classe, gen_prediction)
-out_sample_error<-1-(confusionMatrix(testData$classe, gen_prediction)$overall[1])
-out_sample_error
+Accuracy <- postResample(gen_prediction, testData$classe)
+Accuracy
+out_of_sample_error <- 1 - as.numeric(confusionMatrix(testData$classe, gen_prediction)$overall[1])
+out_of_sample_error
 result<-predict(gen_model,testCleaned[,-length(names(testCleaned))])
 result
 classPlot <- cor(model_train[, -length(names(model_train))])

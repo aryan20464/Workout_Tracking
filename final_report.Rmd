@@ -91,11 +91,14 @@ gen_model
 gen_prediction <- predict(gen_model, testData)
 confusionMatrix(testData$classe, gen_prediction)
 ```
-<p> In the above output the section "Overall Statistics" has some values for outputs, the accuracy is mentioned there it is 0.9932. So the model fitted here has an accuracy of 99.32% and the out of sample error could be calculated manually by subtracting the accuracy from 1. It is (1-0.9932  = 0.01087511).
+<p> In the above output the section "Overall Statistics" has some values for outputs, Accuracy and the out of sample error estimate is shown below.
 </p>
-<p>The Details of the model fitted:</p>
-<p>Accuracy : 99.32%</p>
-<p>Out of Sample error : 0.01087511</p>
+```{r}
+Accuracy <- postResample(gen_prediction, testData$classe)
+Accuracy
+out_of_sample_error <- 1 - as.numeric(confusionMatrix(testData$classe, gen_prediction)$overall[1])
+out_of_sample_error
+```
 <h4>2.2 Predicting the results of given test data </h4>
 <p> The model is now used for predicting the "classe" or output of the given test data obtained from the assignment page</p>
 ```{r}
